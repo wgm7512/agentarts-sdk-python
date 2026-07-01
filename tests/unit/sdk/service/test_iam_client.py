@@ -2,6 +2,7 @@
 Unit tests for IAM client
 """
 
+import pytest
 from unittest.mock import Mock, patch
 
 
@@ -310,12 +311,9 @@ class TestIAMClient:
 
                 client = IAMClient()
 
-                try:
+                with pytest.raises(ValueError, match="not found"):
                     client.create_agency_with_policy(
                         agency_name="TestAgency",
                         trust_policy=trust_policy,
                         policy_name="NonExistentPolicy"
                     )
-                    assert False, "Should have raised ValueError"
-                except ValueError as e:
-                    assert "not found" in str(e)
